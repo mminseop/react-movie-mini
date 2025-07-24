@@ -15,7 +15,7 @@ function PopularSwiper({ movies }) {
       <Swiper
         modules={[Navigation]}
         spaceBetween={20}
-        slidesPerView={3}
+        slidesPerView={4}
         navigation
         slidesOffsetBefore={40} // 좌측 offset
         breakpoints={{
