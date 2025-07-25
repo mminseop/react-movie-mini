@@ -1,30 +1,151 @@
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import movieDetailData from "../assets/data/movieDetailData.json";
+import {
+  fetchMovieCredits,
+  fetchMovieDetail,
+  fetchMovieVideos,
+} from "../api/tmdb";
+import LoadingIndicator from "../components/LoadingIndicator";
 
 function MovieDetail() {
-//   const { id } = useParams();
-//   const movie = movieDetailData.find((item) => item.id === id);
-//   console.log(movieDetailData);
-  const genres = movieDetailData.genres.map((x) => x.name).join(" / ");
+  const { id } = useParams();
+
+  const [movie, setMovie] = useState(null);
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    const getMovieAllData = async () => {
+      try {
+        setIsLoading(true);
+
+        // 세 가지 비동기 요청 병렬로 실행
+        const [detailData, creditData, videoData] = await Promise.all([
+          fetchMovieDetail(id),
+          fetchMovieCredits(id),
+          fetchMovieVideos(id),
+        ]);
+        // console.log(creditData, videoData);
+        setMovie({
+          ...detailData,
+          credits: creditData,
+          videos: videoData,
+        });
+      } catch (err) {
+        console.error("영화 데이터를 불러오는 데 실패했습니다.", err);
+        setError("영화 정보를 불러오는 데 실패했습니다.");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    getMovieAllData();
+  }, [id]);
+
+  if (isLoading) {
+    return <LoadingIndicator lodingText={"영화 상세정보 불러오는중"} />;
+  }
+
+  if (!movie || error) return; // 에러가 있거나 movie 데이터가 없으면 아무것도 렌더링x
+
   const baseUrl = "https://image.tmdb.org/t/p/w500";
-  const imgPath = `${baseUrl}/${movieDetailData.backdrop_path}`;
+  const movieImgPath = `${baseUrl}${movie.poster_path}`;
 
   return (
-    <div className="movie-detail-wrap">
-      <img className="movie-detail-img" src={imgPath} alt="" />
-      <div className="movie-detail-info">
-        <div className="movie-detail-info-top">
-          <div className="title">{movieDetailData.title}</div>
-          <div className="rating">{movieDetailData.vote_average}</div>
+    movie && (
+      <>
+        <div className="movie-detail-wrap">
+          <img
+            className="movie-detail-img"
+            src={movieImgPath}
+            alt={movie.title}
+          />
+          <div className="movie-detail-info">
+            <h2 className="movie-title">{movie.title}</h2>
+            <div className="movie-rating">
+              ⭐ {movie.vote_average.toFixed(1)}
+            </div>
+
+            <div className="movie-genres">
+              {movie.genres.map((genre) => (
+                <span key={genre.id} className="genre-badge">
+                  {genre.name}
+                </span>
+              ))}
+            </div>
+
+            <div className="movie-overview">
+              {movie.overview || "줄거리가 없습니다."}
+            </div>
+
+            <div className="movie-actions">
+              <button className="play-button">▶ 재생하기</button>
+            </div>
+          </div>
         </div>
-        <div className="movie-detail-info-genre">장르 : {genres}</div>
-        <div className="movie-detail-info-plot">
-          줄거리
-          <br />
-          {movieDetailData.overview}
+
+        <div className="movie-director-wrap">
+          <h3>감독</h3>
+          <div className="director-list">
+            {movie.credits.crew
+              .filter((person) => person.job === "Director")
+              .map((director) => (
+                <div key={director.id} className="director-card">
+                  <img
+                    src={
+                      director.profile_path
+                        ? `${baseUrl}/${director.profile_path}`
+                        : `${baseUrl}`
+                    }
+                    alt={director.name}
+                    className="director-img"
+                  />
+                  <p className="director-name">{director.name}</p>
+                </div>
+              ))}
+          </div>
         </div>
-      </div>
-    </div>
+
+        <div className="movie-cast-wrap">
+          <h3 className="movie-subtitle">출연진</h3>
+          <div className="movie-cast-list">
+            {movie.credits.cast.slice(0, 5).map((actor) => (
+              <div key={actor.id} className="movie-cast-card">
+                <img
+                  src={
+                    actor.profile_path
+                      ? `${baseUrl}/${actor.profile_path}`
+                      : `${baseUrl}`
+                  }
+                  alt={actor.name}
+                  className="movie-cast-img"
+                />
+                <p className="movie-cast-name">{actor.name}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="movie-trailer-wrap">
+          <h3 className="movie-subtitle">예고편</h3>
+          {movie.videos.results
+            .filter(
+              (video) => video.site === "YouTube" && video.type === "Trailer"
+            )
+            .slice(0, 1)
+            .map((trailer) => (
+              <div key={trailer.id} className="movie-trailer-frame">
+                <iframe
+                  src={`https://www.youtube.com/embed/${trailer.key}`}
+                  title="예고편"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                ></iframe>
+              </div>
+            ))}
+        </div>
+      </>
+    )
   );
 }
 
