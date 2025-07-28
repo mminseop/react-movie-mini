@@ -43,7 +43,7 @@ function MovieDetail() {
   }, [id]);
 
   if (isLoading) {
-    return <LoadingIndicator lodingText={"영화 상세정보 불러오는중"} />;
+    return <LoadingIndicator loadingText={"영화 상세정보 불러오는중"} />;
   }
 
   if (!movie || error) return; // 에러가 있거나 movie 데이터가 없으면 아무것도 렌더링x

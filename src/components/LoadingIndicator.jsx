@@ -1,10 +1,10 @@
 import { ClipLoader } from "react-spinners";
 
-function LoadingIndicator({ lodingText }) {
+function LoadingIndicator({ loadingText }) {
   return (
     <div className="loading-wrap">
       <ClipLoader color="#666" size={50} />
-      <div className="loading-text">{lodingText}...</div>
+      <div className="loading-text">{loadingText}...</div>
     </div>
   );
 }
