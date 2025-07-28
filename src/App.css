@@ -527,9 +527,8 @@ body.light-mode .theme-toggle-button {
   }
 
   .movie-detail-wrap .movie-detail-img {
-    width: 80%;
-    object-fit: contain;
-    max-height: 400px;
+    width: 70%;
+    height: 100%;
     object-fit: cover;
     border-radius: 8px;
   }
@@ -540,7 +539,6 @@ body.light-mode .theme-toggle-button {
     flex-wrap: wrap;
     gap: 2rem;
   }
-
 }
 
 /* 모바일 (480px 이하) */
