@@ -60,6 +60,21 @@
   padding: 0 7px 10px 0;
 }
 
+.no-data-wrap {
+  width: 100%;
+  min-height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.no-data-wrap .no-data-info {
+  text-align: center;
+  color: #888;
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+
 /* MovieCard 끝 */
 
 /* MovieDetail 시작 */

@@ -10,7 +10,7 @@ import LoadingIndicator from "../components/LoadingIndicator";
 function MovieDetail() {
   const { id } = useParams();
 
-  const [movie, setMovie] = useState(null);
+  const [movie, setMovie] = useState([]);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 

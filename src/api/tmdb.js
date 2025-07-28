@@ -57,7 +57,7 @@ export async function fetchMovieVideos(id) {
 
 // 검색
 export async function fetchSearchMovies(query) {
-    const res = await fetch(`${baseUrl}/search/movie?query=${query}?language=ko-KR`, {
+    const res = await fetch(`${baseUrl}/search/movie?query=${encodeURIComponent(query)}&language=ko-KR`, {
         headers: tmdbHeaders,
     });
 
