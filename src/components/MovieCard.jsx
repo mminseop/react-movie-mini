@@ -6,7 +6,7 @@ function MovieCard({ id, title, poster, rating }) {
   const navigate = useNavigate();
     
   const handleNavigate = () => {
-    navigate(`/details/${id}`);
+    navigate(`/detail/${id}`);
   }
 
   return (
@@ -14,7 +14,7 @@ function MovieCard({ id, title, poster, rating }) {
       <div className="movie-card-wrap" onClick={handleNavigate}>
         <img className="movie-card-img" src={imgPath} alt={title} />
         <div className="movie-card-title">{title}</div>
-        <div className="movie-card-rating">평점: {rating}</div>
+        <div className="movie-card-rating">⭐ {rating.toFixed(1)}</div>
       </div>
     </>
   );
