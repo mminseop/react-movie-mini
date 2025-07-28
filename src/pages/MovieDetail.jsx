@@ -10,7 +10,7 @@ import LoadingIndicator from "../components/LoadingIndicator";
 function MovieDetail() {
   const { id } = useParams();
 
-  const [movie, setMovie] = useState([]);
+  const [movie, setMovie] = useState(null);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -46,7 +46,13 @@ function MovieDetail() {
     return <LoadingIndicator loadingText={"영화 상세정보 불러오는중"} />;
   }
 
-  if (!movie || error) return; // 에러가 있거나 movie 데이터가 없으면 아무것도 렌더링x
+  if (error) {
+    return <p className="error-message">{error}</p>;
+  }
+
+  if (!movie) {
+    return; // 또는 로딩 상태가 끝났는지 확인 후에 처리
+  }
 
   const baseUrl = "https://image.tmdb.org/t/p/w500";
   const movieImgPath = `${baseUrl}${movie.poster_path}`;
@@ -85,7 +91,7 @@ function MovieDetail() {
         </div>
 
         <div className="movie-director-wrap">
-          <h3>감독</h3>
+          <h3 className="movie-subtitle">감독</h3>
           <div className="director-list">
             {movie.credits.crew
               .filter((person) => person.job === "Director")

@@ -13,6 +13,20 @@
   padding: 1.5rem;
 }
 
+.dark-mode {
+  background-color: #121212;
+  color: #eee;
+}
+
+.dark-mode header {
+  background-color: #1a1a1a;
+}
+
+.light-mode {
+  background-color: #fff;
+  color: #333;
+}
+
 /* MovieCard 시작 */
 .movie-list-wrap {
   display: grid;
@@ -27,7 +41,6 @@
   width: 200px;
   display: flex;
   flex-direction: column;
-  background-color: #fff;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   cursor: pointer;
@@ -83,7 +96,6 @@
   gap: 2rem;
   padding: 2rem;
   margin: 0 auto;
-  background-color: #fff;
   border-radius: 16px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
 }
@@ -107,7 +119,6 @@
   font-size: 2.4rem;
   font-weight: 700;
   margin: 0;
-  color: #111;
 }
 
 .movie-rating {
@@ -131,23 +142,14 @@
   font-weight: 500;
 }
 
-.movie-overview h3 {
-  font-size: 1.2rem;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-  color: #333;
-}
-
 .movie-overview {
   font-size: 1rem;
-  color: #444;
 }
 
 .movie-subtitle {
   font-size: 1.3rem;
   font-weight: 600;
   margin-bottom: 1rem;
-  color: #222;
 }
 
 .movie-director-wrap,
@@ -205,7 +207,6 @@
 .movie-cast-name {
   font-size: 0.9rem;
   margin-top: 0.5rem;
-  color: #333;
 }
 
 .movie-trailer-frame iframe {
@@ -256,43 +257,50 @@ header {
   justify-content: space-between;
   padding: 1rem 2rem;
   background-color: #1a1a2e;
+  flex-wrap: wrap;
+  position: relative;
 }
 
 .logo {
   font-size: 1.5rem;
   font-weight: bold;
   color: #fff;
+  text-decoration: none;
 }
 
-/* 링크의 기본 밑줄 제거 */
 .logo:link,
 .logo:visited,
 .logo:hover,
 .logo:active {
   text-decoration: none;
   color: white;
-  outline: none; /* 클릭 시 생기는 포커스 박스 제거 */
+  outline: none;
 }
 
 .movie-search-input {
-  /* flex: 1; */
-  margin-left: auto;
-  margin-right: 30px;
   padding: 0.5rem 1rem;
+  margin-left: auto;
+  margin-right: 1.5rem;
   border: none;
   border-bottom: 2px solid #888;
   width: 300px;
-  border-radius: 0;
   background-color: #1a1a2e;
   color: #fff;
   font-size: 1rem;
   outline: none;
   transition: border-color 0.2s;
+  display: block;
 }
 
-.auth-buttons {
+.movie-search-input.show {
+  display: block !important;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.auth-buttons.desktop-only {
   display: flex;
-  gap: 0.5rem;
+  gap: 1.2rem;
 }
 
 .auth-buttons button {
@@ -309,6 +317,72 @@ header {
 .auth-buttons button:hover {
   background-color: #2563eb;
 }
+
+.theme-toggle-button {
+  background-color: transparent;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 2rem;
+}
+
+.theme-toggle-button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  transform: scale(1.1);
+}
+
+.theme-toggle-button .icon {
+  transition: transform 0.3s ease;
+  font-size: 1rem;
+}
+
+body.dark-mode .theme-toggle-button {
+  background-color: #444;
+  color: #fff;
+}
+
+body.light-mode .theme-toggle-button {
+  background-color: #eee;
+  color: #111;
+}
+
+.icon-button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1.5rem;
+  margin-left: 10px;
+  color: white;
+}
+
+/* 모바일 메뉴 */
+.mobile-menu {
+  display: none;
+}
+
+/* 모바일 메뉴 토글되었을 때 */
+.mobile-menu.show {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  background-color: #111;
+  padding: 1rem;
+  margin-top: 0.5rem;
+  width: 100%;
+  border-radius: 8px;
+}
+
+.search-toggle,
+.menu-toggle {
+  display: none; /* 기본값: 안 보이게 */
+}
+
 /* NavBar 끝 */
 
 /* PopularSwiper 시작 */
@@ -323,7 +397,6 @@ header {
 
 .popular-slider h2 {
   font-size: 1.5rem;
-  color: #333;
   margin-bottom: 1.2rem;
   padding-left: 0.5rem;
   font-weight: 600;
@@ -363,3 +436,123 @@ header {
   color: #555;
 }
 /* LodingIndicator 끝 */
+
+/* --- 반응형 미디어 쿼리 시작 --- */
+
+/* 태블릿 (768px 이하) */
+@media (max-width: 768px) {
+  header {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.8rem 1rem;
+  }
+
+  .menu-toggle {
+    display: flex;
+  }
+
+  .logo {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+  }
+
+  /* 왼쪽: 검색 토글 버튼 */
+  .search-toggle {
+    display: flex;
+  }
+
+  /* 오른쪽 컨테이너: 다크모드 버튼 + 햄버거 메뉴 */
+  .header-button-wrap {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+
+  /* 숨김 처리 */
+  .movie-search-input {
+    display: none;
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+
+  .movie-search-input.show {
+    display: block;
+  }
+
+  /* 로그인 버튼 숨기기 */
+  .auth-buttons.desktop-only {
+    display: none;
+  }
+
+  .mobile-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    background-color: #222;
+    padding: 1rem;
+    margin-top: 0.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    position: absolute;
+    top: 45px;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 100;
+  }
+
+  .mobile-menu button {
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    padding: 0.8rem 1.2rem;
+    font-size: 1.1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.2s ease;
+  }
+
+  .mobile-menu button:hover {
+    background-color: #2563eb;
+  }
+
+  .movie-detail-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .movie-detail-wrap .movie-detail-img {
+    width: 80%;
+    object-fit: contain;
+    max-height: 400px;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+
+  .movie-list-wrap {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 2rem;
+  }
+
+}
+
+/* 모바일 (480px 이하) */
+@media (max-width: 480px) {
+  .movie-list-wrap {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .popular-slider {
+    display: flex;
+    justify-content: center;
+  }
+}

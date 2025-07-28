@@ -15,13 +15,14 @@ function PopularSwiper({ movies }) {
       <Swiper
         modules={[Navigation]}
         spaceBetween={20}
-        slidesPerView={4}
+        slidesPerView={1}
         navigation
         slidesOffsetBefore={40} // 좌측 offset
         breakpoints={{
-          768: { slidesPerView: 2 },
-          1024: { slidesPerView: 3 },
-          1280: { slidesPerView: 4 },
+          320: { slidesPerView: 1 },
+          460: { slidesPerView: 2 },
+          768: { slidesPerView: 3 },
+          1024: { slidesPerView: 4 },
         }}
       >
         {sorted.slice(0, 10).map((movie, index) => (
