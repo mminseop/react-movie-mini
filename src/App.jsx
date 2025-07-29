@@ -27,7 +27,7 @@ function App() {
   }, []);
 
   if (isLoading) {
-    return <LoadingIndicator lodingText={"영화 목록 불러오는중"} />;
+    return <LoadingIndicator loadingText={"영화 목록 불러오는중"} />;
   }
 
   return (
