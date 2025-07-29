@@ -16,10 +16,10 @@ function MovieSearch() {
 
   useEffect(() => {
     // 검색어가 비어 있으면 메인으로 리디렉트
-    if (!query.trim()) {
+    if (!debounceValue.trim()) {
       navigate("/");
     }
-  }, [query]);
+  }, [debounceValue]);
 
   useEffect(() => {
     const getSearchMovies = async () => {
