@@ -77,6 +77,27 @@ function Login() {
             </Link>
           </div>
         </form>
+        <div className="social-login-wrap">
+          {/* 카카오 로그인 */}
+          <button type="button" className="social-btn kakao">
+            <img
+              src="https://developers.kakao.com/assets/img/about/logos/kakaolink/kakaolink_btn_medium.png"
+              alt="Kakao"
+              className="social-icon"
+            />
+            카카오 로그인
+          </button>
+
+          {/* 구글 로그인 */}
+          <button type="button" className="social-btn google">
+            <img
+              src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
+              alt="Google"
+              className="social-icon"
+            />
+            구글 로그인
+          </button>
+        </div>
       </div>
     </>
   );

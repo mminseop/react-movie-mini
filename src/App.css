@@ -514,7 +514,7 @@ body.light-mode .theme-toggle-button {
 }
 /* FormInputLabel 끝 */
 
-/* SignUp 시작 */
+/* SignUp 시작 (login 포함) */
 .signup-wrap {
   max-width: 500px;
   margin: 1.5rem auto;
@@ -577,6 +577,48 @@ body.light-mode .theme-toggle-button {
 
 .signup-link:hover {
   color: #2563eb;
+}
+
+.social-login-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.social-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  position: relative;
+}
+
+.social-icon {
+  position: absolute;
+  left: 30px;
+  width: 20px;
+  height: 20px;
+  margin-right: 8px;
+}
+
+.social-btn.kakao:hover {
+  background-color: #fee500;
+}
+
+.social-btn.google {
+  color: #000000;
+}
+
+.social-btn.google:hover {
+  background-color: #f5f5f5;
 }
 /* SignUp 끝 */
 

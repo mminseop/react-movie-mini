@@ -106,7 +106,6 @@ function NavBar({ isDarkMode, toggleDarkMode }) {
                 <div className="profile-menu-row">
                   <FaUserCircle size={80} />
                 </div>
-                {console.log(user)}
                 <div className="profile-menu-row profile-user-name">
                   {user.user_metadata.name}님!
                 </div>
