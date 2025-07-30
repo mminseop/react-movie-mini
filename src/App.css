@@ -371,22 +371,52 @@ body.light-mode .theme-toggle-button {
   font-size: 2rem;
 }
 
-/* 모바일 메뉴 토글되었을 때 */
-.mobile-menu.show {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  background-color: #111;
-  padding: 1rem;
-  margin-top: 0.5rem;
-  width: 100%;
-  border-radius: 8px;
-}
-
 /* 토글아이콘 안보이게 */
 .search-toggle,
 .menu-toggle {
   display: none;
+}
+
+.profile-menu {
+  position: absolute;
+  top: 60px;
+  right: 0;
+  background-color: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 24px 20px;
+  width: 240px;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease;
+}
+
+.profile-menu-row {
+  margin-bottom: 12px;
+}
+
+.profile-menu .profile-icon {
+  font-size: 48px;
+  margin-bottom: 12px;
+}
+
+.profile-menu .profile-user-name {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.dark-mode .profile-menu {
+  background-color: #222;
+}
+
+.profile-menu .profile-user-email {
+  font-size: 0.9rem;
+  color: #777;
+  margin-top: 4px;
+  margin-bottom: 16px;
 }
 
 /* NavBar 끝 */
@@ -418,7 +448,7 @@ body.light-mode .theme-toggle-button {
   top: 5px;
   left: 3px;
   background-color: #e74c3c;
-  color: white;
+  color: #fff;
   font-weight: 600;
   font-size: 0.8rem;
   padding: 4px 8px;
@@ -443,8 +473,156 @@ body.light-mode .theme-toggle-button {
 }
 /* LodingIndicator 끝 */
 
-/* --- 반응형 미디어 쿼리 시작 --- */
+/* FormInputLabel 시작 */
+.form-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 1.5rem 0;
+}
 
+.form-label {
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.form-input {
+  padding: 0.6rem 0.8rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.form-input:focus {
+  border-color: #4f46e5; /* 보라색 계열 */
+  outline: none;
+}
+
+.form-input::placeholder {
+  color: #aaa;
+}
+
+.input-error {
+  border-color: #e53935;
+  background-color: #fff7f7;
+}
+
+.error-message {
+  color: #e53935;
+  margin-top: 0.4rem;
+  font-size: 0.85rem;
+}
+/* FormInputLabel 끝 */
+
+/* SignUp 시작 (login 포함) */
+.signup-wrap {
+  max-width: 500px;
+  margin: 1.5rem auto;
+  padding: 2rem;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.signup-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.signup-btn-wrap {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+  justify-content: center;
+}
+
+.signup-btn {
+  flex: 1;
+  padding: 0.7rem 1rem;
+  border: none;
+  border-radius: 8px;
+  background-color: #3b82f6;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.signup-btn:hover {
+  background-color: #2563eb;
+}
+
+.signup-btn:active {
+  background-color: #3730a3;
+}
+
+.signup-info-link-wrap {
+  margin-top: 1.2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.9rem;
+  font-weight: 400;
+}
+
+.signup-link {
+  margin-left: 0.4rem;
+  color: #3b82f6;
+  text-decoration: underline;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.signup-link:hover {
+  color: #2563eb;
+}
+
+.social-login-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.social-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  position: relative;
+}
+
+.social-icon {
+  position: absolute;
+  left: 30px;
+  width: 20px;
+  height: 20px;
+  margin-right: 8px;
+}
+
+.social-btn.kakao:hover {
+  background-color: #fee500;
+}
+
+.social-btn.google {
+  color: #000000;
+}
+
+.social-btn.google:hover {
+  background-color: #f5f5f5;
+}
+/* SignUp 끝 */
+
+/* --- 반응형 미디어 쿼리 시작 --- */
 /* 태블릿 (768px 이하) */
 @media (max-width: 768px) {
   header {
@@ -478,24 +656,6 @@ body.light-mode .theme-toggle-button {
     align-items: center;
   }
 
-  /* 공통 모바일 패널 스타일 */
-  .mobile-slide-panel {
-    display: flex;
-    flex-direction: column;
-    gap: 0.9rem;
-    background-color: #222;
-    padding: 1rem;
-    margin-top: 0.5rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-    position: absolute;
-    top: 45px;
-    left: 0;
-    right: 0;
-    width: 100%;
-    z-index: 100;
-    animation: slideDown 0.3s ease;
-  }
-
   /* 애니메이션 효과 */
   @keyframes slideDown {
     from {
@@ -508,6 +668,7 @@ body.light-mode .theme-toggle-button {
     }
   }
 
+  /* 공통 모바일 패널 스타일 */
   .mobile-slide-panel {
     display: flex;
     flex-direction: column;
@@ -524,6 +685,30 @@ body.light-mode .theme-toggle-button {
     z-index: 100;
     border-radius: 0 0 12px 12px;
     animation: slideDown 0.3s ease;
+  }
+
+  .mobile-profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .mobile-profile-icon {
+    color: #fff;
+    margin-bottom: 10px;
+  }
+
+  .mobile-username {
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: 4px;
+    color: #fff;
+  }
+
+  .mobile-email {
+    font-size: 0.9rem;
+    color: #777;
+    margin-bottom: 16px;
   }
 
   header .movie-search-input {
@@ -546,6 +731,7 @@ body.light-mode .theme-toggle-button {
     cursor: pointer;
     font-weight: 600;
     transition: background-color 0.2s ease;
+    width: 100%;
   }
 
   .mobile-slide-panel button:hover {
