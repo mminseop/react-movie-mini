@@ -29,7 +29,7 @@ export function UserAuthProvider({ children }) {
         const userInfo = {
           userId: currentUser.id,
           userEmail: currentUser.email,
-          userName: currentUser.user_metadata.name,
+          userName: currentUser.user_metadata?.name || "",
         };
         localStorage.setItem("userInfo", JSON.stringify(userInfo)); // 문자열로 변환해서 저장, 안하면 object로 뜸
       } else {
@@ -41,13 +41,14 @@ export function UserAuthProvider({ children }) {
 
     // 로그인, 로그아웃 등 인증 상태가 바뀔 때마다 호출되는 리스너 등록
     const { data: listener } = supabase.auth.onAuthStateChange((_, session) => {
+      // 새롭게 바뀐 세션에서 유저 정보 추출
       const newUser = session && session.user ? session.user : null;
       setUser(newUser);
       if (newUser) {
         const userInfo = {
           userId: newUser.id,
           userEmail: newUser.email,
-          userName: newUser.metadata.name,
+          userName: newUser.metadata?.name || "",
         };
         localStorage.setItem("userInfo", JSON.stringify(userInfo));
       } else {

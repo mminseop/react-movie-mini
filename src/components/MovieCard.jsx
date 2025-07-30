@@ -2,12 +2,15 @@ import { useNavigate } from "react-router-dom";
 
 function MovieCard({ id, title, poster, rating }) {
   const baseUrl = "https://image.tmdb.org/t/p/w500";
-  const imgPath = `${baseUrl}/${poster}`;
+  const noImgUrl =
+    "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg";
+  const imgPath = poster ? `${baseUrl}/${poster}` : noImgUrl;
+
   const navigate = useNavigate();
-    
+
   const handleNavigate = () => {
     navigate(`/detail/${id}`);
-  }
+  };
 
   return (
     <>
