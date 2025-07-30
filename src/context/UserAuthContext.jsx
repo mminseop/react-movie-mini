@@ -69,8 +69,8 @@ export function UserAuthProvider({ children }) {
   };
 
   // 회원가입 함수
-  const signUp = async ({ email, password }) => {
-    const { error } = await supabase.auth.signUp({ email, password });
+  const signUp = async ({ email, password, options }) => {
+    const { error } = await supabase.auth.signUp({ email, password, options });
     if (error) throw error;
   };
 
@@ -80,9 +80,20 @@ export function UserAuthProvider({ children }) {
     if (error) throw error;
   };
 
+  // 소셜 로그인
+  const socialLogin = async (provider) => {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider, // 카카오 or 구글
+      options: {
+        redirectTo: window.location.origin + "/auth/callback",
+      },
+    });
+    if (error) throw error;
+  };
+
   // Context로 로그인 관련 상태와 함수들을 하위 컴포넌트에 전달
   return (
-    <UserAuthContext.Provider value={{ user, loading, login, signUp, logout }}>
+    <UserAuthContext.Provider value={{ user, loading, login, signUp, logout, socialLogin }}>
       {children}
     </UserAuthContext.Provider>
   );

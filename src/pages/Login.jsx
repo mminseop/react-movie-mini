@@ -10,7 +10,7 @@ function Login() {
   const [errors, setErrors] = useState({}); // 에러 메시지를 저장할 상태
 
   const navigate = useNavigate();
-  const { login } = useUserAuth(); // context에서 로그인 함수 꺼내오기
+  const { login, socialLogin } = useUserAuth(); // context에서 로그인 함수 꺼내오기
 
   //입력값 유효성 검사
   const validate = () => {
@@ -79,7 +79,11 @@ function Login() {
         </form>
         <div className="social-login-wrap">
           {/* 카카오 로그인 */}
-          <button type="button" className="social-btn kakao">
+          <button
+            type="button"
+            className="social-btn kakao"
+            onClick={() => socialLogin("kakao")}
+          >
             <img
               src="https://developers.kakao.com/assets/img/about/logos/kakaolink/kakaolink_btn_medium.png"
               alt="Kakao"
