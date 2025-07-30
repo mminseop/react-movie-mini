@@ -11,23 +11,50 @@ export function UserAuthProvider({ children }) {
 
   // 컴포넌트 마운트 시 로그인 세션 있는지 확인
   useEffect(() => {
+    // 현재 로그인된 세션 정보를 가져오는 비동기 함수
     const getSession = async () => {
+      // Supabase에서 현재 로그인 세션(session) 정보 가져오기
       const {
-        data: { session }, // 세션 객체 가져오기
+        data: { session },
       } = await supabase.auth.getSession();
-      setUser(session?.user ?? null); // 세션이 있으면 user 설정, 없으면 null
-      setLoading(false); // 로딩 끝
+
+      // 세션이 있으면 user를 추출, 없으면 null
+      const currentUser = session && session.user ? session.user : null;
+
+      setUser(currentUser); // user 상태 업데이트 (로그인된 유저 or null)
+
+      // 사용자가 로그인된 상태라면
+      if (currentUser) {
+        // 사용자 정보를 로컬스토리지에 저장
+        const userInfo = {
+          userId: currentUser.id,
+          userEmail: currentUser.email,
+          userName: currentUser.user_metadata.name,
+        };
+        localStorage.setItem("userInfo", JSON.stringify(userInfo)); // 문자열로 변환해서 저장, 안하면 object로 뜸
+      } else {
+        localStorage.removeItem("userInfo"); // 로그인 안된 상태면 기존 로컬스토리지 정보 삭제
+      }
+      setLoading(false);
     };
     getSession();
 
-    // 로그인/로그아웃 등 인증 상태 변경 실시간 감지
-    const { data: listener } = supabase.auth.onAuthStateChange(
-      (_event, session) => {
-        setUser(session?.user ?? null); // 세션 바뀌면 user 갱신
+    // 로그인, 로그아웃 등 인증 상태가 바뀔 때마다 호출되는 리스너 등록
+    const { data: listener } = supabase.auth.onAuthStateChange((_, session) => {
+      const newUser = session && session.user ? session.user : null;
+      setUser(newUser);
+      if (newUser) {
+        const userInfo = {
+          userId: newUser.id,
+          userEmail: newUser.email,
+          userName: newUser.metadata.name,
+        };
+        localStorage.setItem("userInfo", JSON.stringify(userInfo));
+      } else {
+        localStorage.removeItem("userInfo");
       }
-    );
+    });
 
-    // 언마운트 시 리스너 제거
     return () => listener.subscription.unsubscribe();
   }, []);
 
