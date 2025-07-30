@@ -93,7 +93,11 @@ function Login() {
           </button>
 
           {/* 구글 로그인 */}
-          <button type="button" className="social-btn google">
+          <button
+            type="button"
+            className="social-btn google"
+            onClick={() => socialLogin("google")}
+          >
             <img
               src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
               alt="Google"
