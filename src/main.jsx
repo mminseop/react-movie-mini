@@ -11,24 +11,27 @@ import OAuthCallback from "./pages/OAuthCallback.jsx";
 import MyPage from "./pages/MyPage.jsx";
 import UserSettings from "./components/UserSettings.jsx";
 import UserFavorites from "./components/UserFavorites.jsx";
+import { FavoritesProvider } from "./context/FavoritesContext.jsx";
 
 createRoot(document.getElementById("root")).render(
   <BrowserRouter>
     <UserAuthProvider>
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<App />} />
-          <Route path="/detail/:id" element={<MovieDetail />} />
-          <Route path="/search" element={<MovieSearch />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/mypage" element={<MyPage />}>
-            <Route index element={<UserSettings />} />
-            <Route path="favorites" element={<UserFavorites />} />
+      <FavoritesProvider>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<App />} />
+            <Route path="/detail/:id" element={<MovieDetail />} />
+            <Route path="/search" element={<MovieSearch />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/mypage" element={<MyPage />}>
+              <Route index element={<UserSettings />} />
+              <Route path="favorites" element={<UserFavorites />} />
+            </Route>
+            <Route path="/auth/callback" element={<OAuthCallback />} />
           </Route>
-          <Route path="/auth/callback" element={<OAuthCallback />} />
-        </Route>
-      </Routes>
+        </Routes>
+      </FavoritesProvider>
     </UserAuthProvider>
   </BrowserRouter>
 );

@@ -6,6 +6,10 @@ import {
   fetchMovieVideos,
 } from "../api/tmdb";
 import LoadingIndicator from "../components/LoadingIndicator";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
+import { useUserAuth } from "../context/UserAuthContext";
+import { useFavorites } from "../context/FavoritesContext";
+import { alertError } from "../utils/alert";
 
 function MovieDetail() {
   const { id } = useParams();
@@ -13,6 +17,25 @@ function MovieDetail() {
   const [movie, setMovie] = useState(null);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const { user } = useUserAuth();
+  const { toggleFavorite, isFavorite } = useFavorites();
+
+  const favorite = isFavorite(Number(id));
+
+  const handleFavoriteClick = (e) => {
+    e.stopPropagation();
+    if (!user) {
+      alertError("좋아요 실패!", "로그인한 회원만 가능합니다.");
+      return;
+    }
+
+    toggleFavorite({
+      id: movie.id,
+      title: movie.title,
+      poster: movie.poster_path,
+      rating: movie.vote_average,
+    });
+  };
 
   useEffect(() => {
     const getMovieAllData = async () => {
@@ -57,17 +80,25 @@ function MovieDetail() {
   const baseUrl = "https://image.tmdb.org/t/p/w500";
   const movieImgPath = `${baseUrl}${movie.poster_path}`;
 
+  const noImgUrl =
+    "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg";
+
+  const imgPath = movieImgPath ? `${baseUrl}/${movieImgPath}` : noImgUrl;
   return (
     movie && (
       <>
         <div className="movie-detail-wrap">
-          <img
-            className="movie-detail-img"
-            src={movieImgPath}
-            alt={movie.title}
-          />
+          <img className="movie-detail-img" src={imgPath} alt={movie.title} />
           <div className="movie-detail-info">
             <h2 className="movie-title">{movie.title}</h2>
+            <div className="movie-detail-favorite">
+              <div
+                className={`heart-icon ${isFavorite ? "active" : ""}`}
+                onClick={handleFavoriteClick}
+              >
+                {favorite ? <FaHeart /> : <FaRegHeart />}
+              </div>
+            </div>
             <div className="movie-rating">
               ⭐ {movie.vote_average.toFixed(1)}
             </div>
@@ -101,7 +132,7 @@ function MovieDetail() {
                     src={
                       director.profile_path
                         ? `${baseUrl}/${director.profile_path}`
-                        : `${baseUrl}`
+                        : `${noImgUrl}`
                     }
                     alt={director.name}
                     className="director-img"
@@ -121,7 +152,7 @@ function MovieDetail() {
                   src={
                     actor.profile_path
                       ? `${baseUrl}/${actor.profile_path}`
-                      : `${baseUrl}`
+                      : `${noImgUrl}`
                   }
                   alt={actor.name}
                   className="movie-cast-img"

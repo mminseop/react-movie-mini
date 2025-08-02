@@ -1,9 +1,9 @@
 import { useUserAuth } from "../context/UserAuthContext";
 import FormInputLabel from "./FormInputLabel";
 
-
 function UserSettings() {
-    const {user } = useUserAuth();
+  const { user } = useUserAuth();
+
   return (
     <>
       <h2>계정 설정</h2>

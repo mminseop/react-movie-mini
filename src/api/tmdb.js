@@ -12,10 +12,10 @@ const tmdbHeaders = {
 };
 
 // 인기순
-export async function fetchMovies() {
-  const res = await fetch(`${baseUrl}/movie/popular?language=ko-KR`, {
-    headers: tmdbHeaders,
-  });
+export async function fetchMovies(page) {
+    const res = await fetch(`${baseUrl}/movie/popular?page=${page}&language=ko-KR`, {
+      headers: tmdbHeaders,
+    });
 
   if (!res.ok) throw new Error("영화 목록 fetch 실패");
 
@@ -57,11 +57,14 @@ export async function fetchMovieVideos(id) {
 
 // 검색
 export async function fetchSearchMovies(query) {
-    const res = await fetch(`${baseUrl}/search/movie?query=${encodeURIComponent(query)}&language=ko-KR`, {
-        headers: tmdbHeaders,
-    });
+  const res = await fetch(
+    `${baseUrl}/search/movie?query=${encodeURIComponent(query)}&language=ko-KR`,
+    {
+      headers: tmdbHeaders,
+    }
+  );
 
-    if (!res.ok) throw new Error("검색 fetch 실패");
+  if (!res.ok) throw new Error("검색 fetch 실패");
 
-    return await res.json();
+  return await res.json();
 }

@@ -44,6 +44,26 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   cursor: pointer;
+  position: relative;
+}
+
+.heart-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 1.5rem;
+  color: #ccc;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.heart-icon.active {
+  color: red;
+}
+
+.heart-icon:hover {
+  color: red;
+  transform: scale(1.1);
 }
 
 .movie-card-wrap:hover {
@@ -113,6 +133,14 @@
   flex-direction: column;
   gap: 1.5rem;
   padding: 1rem 0;
+  position: relative;
+}
+
+.movie-detail-favorite {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 10;
 }
 
 .movie-title {
@@ -786,6 +814,14 @@ body.light-mode .theme-toggle-button {
   font-weight: 600;
   color: #2563eb;
   border-bottom: 2px solid #2563eb;
+}
+
+.movie-favorites-wrap {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin: 1.5rem auto;
 }
 
 /* MyPage 끝 */

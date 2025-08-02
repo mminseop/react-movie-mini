@@ -10,13 +10,17 @@ function MyPage() {
   const location = useLocation();
 
   useEffect(() => {
-    if (loading) return; // 아직 로딩 중이면 종료
+    const checkUser = async () => {
+      if (loading) return; // 아직 로딩 중이면 종료
 
-    if (!user) {
-      alertError("잘못된 접근", "회원만 접근 가능합니다.");
-      navigate("/login");
-    }
-  }, [user]);
+      if (!user) {
+        await alertError("잘못된 접근", "회원만 접근 가능합니다.");
+        navigate("/login");
+      }
+    };
+
+    checkUser();
+  }, [user, loading]);
 
   if (!user) return;
 
