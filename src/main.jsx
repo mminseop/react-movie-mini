@@ -8,6 +8,9 @@ import Login from "./pages/Login.jsx";
 import SignUp from "./pages/SingUp.jsx";
 import { UserAuthProvider } from "./context/UserAuthContext.jsx";
 import OAuthCallback from "./pages/OAuthCallback.jsx";
+import MyPage from "./pages/MyPage.jsx";
+import UserSettings from "./components/UserSettings.jsx";
+import UserFavorites from "./components/UserFavorites.jsx";
 
 createRoot(document.getElementById("root")).render(
   <BrowserRouter>
@@ -19,6 +22,10 @@ createRoot(document.getElementById("root")).render(
           <Route path="/search" element={<MovieSearch />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/mypage" element={<MyPage />}>
+            <Route index element={<UserSettings />} />
+            <Route path="favorites" element={<UserFavorites />} />
+          </Route>
           <Route path="/auth/callback" element={<OAuthCallback />} />
         </Route>
       </Routes>

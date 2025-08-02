@@ -1,16 +1,39 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaSearch, FaUserCircle } from "react-icons/fa";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { useUserAuth } from "../context/UserAuthContext";
+import useOutsideClickClose from "../hooks/useOutsideClickClose";
+import { FiSun, FiMoon } from "react-icons/fi";
 
 function NavBar({ isDarkMode, toggleDarkMode }) {
   const [serachValue, setSearchValue] = useState(""); // 검색어 상태
   const navigate = useNavigate();
   const [mobilePanel, setMobilePanel] = useState(null); // 모바일 슬라이드 패널 상태 search, menu, null
   const { user, logout } = useUserAuth();
-  const [showProfile, setShowProfile] = useState(false);
+  const [showProfile, setShowProfile] = useState(false); //프로필 드롭다운 메뉴 상태
+  const profileMenuRef = useRef(); // pc용 프로필 드롭다운 메뉴 ref
+  const mobileMenuRef = useRef(); // 모바일/태블릿용 햄버거 메뉴 ref
 
+  // 사용자가 프로필 메뉴 바깥을 클릭하면 메뉴를 닫음
+  useOutsideClickClose(
+    profileMenuRef, // 어떤 DOM 요소 바깥을 감지할지 지정
+    () => setShowProfile(false), // 바깥을 클릭했을 때 실행할 함수 (닫기)
+    showProfile // 메뉴가 열려 있을 때만 이벤트 리스너 활성화
+  );
+
+  useOutsideClickClose(
+    mobileMenuRef,
+    () => setMobilePanel(null), // 슬라이드 패널 닫기
+    mobilePanel === "menu" // 현재 메뉴 패널이 열려있는지 여부
+  );
+
+  const handleLogout = () => {
+    logout();
+    setShowProfile(false);
+    navigate("/");
+  };
+  
   // 화면 크기 변경될 때 슬라이드 패널 자동 닫기 (768px 이상이면 닫음)
   useEffect(() => {
     const handleResize = () => {
@@ -76,7 +99,7 @@ function NavBar({ isDarkMode, toggleDarkMode }) {
           className="icon-button theme-toggle-button"
           onClick={toggleDarkMode}
         >
-          <span className="icon">{isDarkMode ? "☀️" : "🌙"}</span>
+          {isDarkMode ? <FiSun size={20} /> : <FiMoon size={20} />}
         </button>
 
         {/* ☰ 모바일 메뉴 토글 버튼 */}
@@ -90,16 +113,10 @@ function NavBar({ isDarkMode, toggleDarkMode }) {
 
       {/* pc에서만 보이는 로그인/회원가입 버튼, 768px 이하에서 display: none 처리 */}
       <div className="auth-buttons desktop-only">
-        {/* <Link to="/login">
-          <button>로그인</button>
-        </Link>
-        <Link to="/signup">
-          <button>회원가입</button>
-        </Link> */}
         {user ? (
-          <div className="profile-dropdown">
-            <button onClick={() => setShowProfile(!showProfile)}>
-              <FaUserCircle size={25} />
+          <div className="profile-dropdown" ref={profileMenuRef}>
+            <button onClick={() => setShowProfile((prev) => !prev)}>
+              <FaUserCircle size={28} />
             </button>
             {showProfile && (
               <div className="profile-menu">
@@ -107,12 +124,26 @@ function NavBar({ isDarkMode, toggleDarkMode }) {
                   <FaUserCircle size={80} />
                 </div>
                 <div className="profile-menu-row profile-user-name">
-                  {user.user_metadata.name}님!
+                  {user.user_metadata.name} 님!
                 </div>
                 <div className="profile-menu-row profile-user-email">
                   {user.email}
                 </div>
-                <button onClick={logout}>로그아웃</button>
+                <div className="profile-button-wrap">
+                  <Link
+                    to="/mypage"
+                    onClick={() => setShowProfile(false)}
+                    className="profile-menu-link"
+                  >
+                    마이페이지
+                  </Link>
+                  <button
+                    onClick={handleLogout}
+                    className="profile-menu-button"
+                  >
+                    로그아웃
+                  </button>
+                </div>
               </div>
             )}
           </div>
@@ -144,14 +175,12 @@ function NavBar({ isDarkMode, toggleDarkMode }) {
 
       {/* 햄버거 메뉴바 (로그인/회원가입 버튼, 모바일/태블릿에서만) */}
       {mobilePanel === "menu" && (
-        <div className="mobile-slide-panel">
+        <div className="mobile-slide-panel" ref={mobileMenuRef}>
           {user ? (
             // 로그인한 상태
             <div className="mobile-profile">
               <FaUserCircle size={36} className="mobile-profile-icon" />
-              <div className="mobile-username">
-                {user.user_metadata?.name || "사용자"}
-              </div>
+              <div className="mobile-username">{user.user_metadata.name}</div>
               <div className="mobile-email">{user.email}</div>
               <button onClick={logout} className="mobile-logout-btn">
                 로그아웃

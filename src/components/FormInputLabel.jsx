@@ -9,6 +9,7 @@ function FormInputLabel({
   onChange,
   onBlur,
   errorMessage,
+  disabled = false,
 }) {
   return (
     <div className="form-wrap">
@@ -26,6 +27,7 @@ function FormInputLabel({
         onChange={onChange} // 상태값 변경 시 실행 함수 (handleChange 호출)
         onBlur={onBlur} // 포커스 벗어날 때 실행 함수
         autoComplete="off" // 자동완성 끄기
+        disabled={disabled}
       />
       {/* 에러메시지 있을때만 랜더링 */}
       {errorMessage && <div className="error-message">{errorMessage}</div>}

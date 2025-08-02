@@ -16,5 +16,6 @@ export const alertError = (title, message) => {
     icon: "error",
     title: title,
     text: message || "문제가 발생했습니다.",
+    confirmButtonText: "확인",
   });
 };
