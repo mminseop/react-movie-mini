@@ -7,6 +7,8 @@ import LoadingIndicator from "./components/LoadingIndicator";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 function App() {
+  console.log("Supabase URL:", import.meta.env.VITE_SUPABASE_URL);
+  console.log("Supabase Key:", import.meta.env.VITE_SUPABASE_ANON_KEY);
   const [movies, setMovies] = useState([]);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
@@ -54,7 +56,9 @@ function App() {
         dataLength={movies.length}
         next={getMovies}
         hasMore={hasMore}
-        loader={<LoadingIndicator loadingText={"영화 목록 더 불러오는 중..."} />}
+        loader={
+          <LoadingIndicator loadingText={"영화 목록 더 불러오는 중..."} />
+        }
         scrollThreshold={0.95}
       >
         <div className="movie-list-wrap">
