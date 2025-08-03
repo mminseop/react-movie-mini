@@ -7,8 +7,6 @@ import LoadingIndicator from "./components/LoadingIndicator";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 function App() {
-  console.log("Supabase URL:", import.meta.env.VITE_SUPABASE_URL);
-  console.log("Supabase Key:", import.meta.env.VITE_SUPABASE_ANON_KEY);
   const [movies, setMovies] = useState([]);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);

@@ -1006,6 +1006,11 @@ body.light-mode .theme-toggle-button {
     margin: 0 auto;
   }
 
+  .movie-card-wrap {
+    max-width: 150px;
+    max-height: 300px;
+  }
+
   .popular-slider {
     display: flex;
     justify-content: center;
