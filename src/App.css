@@ -824,6 +824,29 @@ body.light-mode .theme-toggle-button {
   margin: 1.5rem auto;
 }
 
+.security-button-wrap {
+    display: flex;
+    justify-content: end;
+    margin-right: 30px;
+}
+
+.security-button-wrap .save-button {
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.2s ease;
+    display: flex;
+}
+
+.security-button-wrap .save-button:hover {
+    background-color: #2563eb;
+}
+
 /* MyPage 끝 */
 
 /* --- 반응형 미디어 쿼리 시작 --- */

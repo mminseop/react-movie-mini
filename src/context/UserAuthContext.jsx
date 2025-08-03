@@ -93,7 +93,9 @@ export function UserAuthProvider({ children }) {
 
   // Context로 로그인 관련 상태와 함수들을 하위 컴포넌트에 전달
   return (
-    <UserAuthContext.Provider value={{ user, loading, login, signUp, logout, socialLogin }}>
+    <UserAuthContext.Provider
+      value={{ user, loading, login, signUp, logout, socialLogin }}
+    >
       {children}
     </UserAuthContext.Provider>
   );
