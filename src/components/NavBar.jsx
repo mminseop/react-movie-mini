@@ -33,7 +33,7 @@ function NavBar({ isDarkMode, toggleDarkMode }) {
     setShowProfile(false);
     navigate("/");
   };
-  
+
   // 화면 크기 변경될 때 슬라이드 패널 자동 닫기 (768px 이상이면 닫음)
   useEffect(() => {
     const handleResize = () => {
@@ -182,9 +182,18 @@ function NavBar({ isDarkMode, toggleDarkMode }) {
               <FaUserCircle size={36} className="mobile-profile-icon" />
               <div className="mobile-username">{user.user_metadata.name}</div>
               <div className="mobile-email">{user.email}</div>
-              <button onClick={logout} className="mobile-logout-btn">
-                로그아웃
-              </button>
+              <div className="mobile-profile-button-wrap">
+                <Link
+                  to="/mypage"
+                  onClick={() => setShowProfile(false)}
+                  className="profile-menu-link"
+                >
+                  마이페이지
+                </Link>
+                <button onClick={logout} className="mobile-logout-btn">
+                  로그아웃
+                </button>
+              </div>
             </div>
           ) : (
             // 로그인하지 않은 상태

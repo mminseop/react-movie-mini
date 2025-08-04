@@ -476,6 +476,13 @@ body.light-mode .theme-toggle-button {
   background-color: #e0e0e0;
 }
 
+.mobile-profile-button-wrap {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    margin: 1.5rem 0;
+    gap: 20px;
+}
 /* NavBar 끝 */
 
 /* PopularSwiper 시작 */

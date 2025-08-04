@@ -13,7 +13,8 @@ const tmdbHeaders = {
 
 // 인기순
 export async function fetchMovies(page) {
-    const res = await fetch(`${baseUrl}/movie/popular?page=${page}&language=ko-KR`, {
+    // const res = await fetch(`${baseUrl}/movie/popular?page=${page}&language=ko-KR`, {
+        const res = await fetch(`${baseUrl}/discover/movie?page=${page}&certification.lte=19&certification_country=KR&language=ko-KR`, {
       headers: tmdbHeaders,
     });
 
