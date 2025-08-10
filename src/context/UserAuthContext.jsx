@@ -91,10 +91,32 @@ export function UserAuthProvider({ children }) {
     if (error) throw error;
   };
 
+  // 비밀번호 변경 함수
+  const changePassword = async ({ email, currentPassword, newPassword }) => {
+    // 현재 비밀번호 확인
+    const { error: signInError } = await supabase.auth.signInWithPassword({
+      email,
+      password: currentPassword,
+    });
+    if (signInError) {
+      return { error: "현재 비밀번호가 올바르지 않습니다." };
+    }
+
+    // 비밀번호 변경
+    const { error: updateError } = await supabase.auth.updateUser({
+      password: newPassword,
+    });
+    if (updateError) {
+      return { error: updateError.message || "비밀번호 변경에 실패했습니다." };
+    }
+
+    return { success: true };
+  };
+
   // Context로 로그인 관련 상태와 함수들을 하위 컴포넌트에 전달
   return (
     <UserAuthContext.Provider
-      value={{ user, loading, login, signUp, logout, socialLogin }}
+      value={{ user, loading, login, signUp, logout, socialLogin, changePassword }}
     >
       {children}
     </UserAuthContext.Provider>

@@ -7,7 +7,7 @@ import useOutsideClickClose from "../hooks/useOutsideClickClose";
 import { FiSun, FiMoon } from "react-icons/fi";
 
 function NavBar({ isDarkMode, toggleDarkMode }) {
-  const [serachValue, setSearchValue] = useState(""); // 검색어 상태
+  const [searchValue, setSearchValue] = useState(""); // 검색어 상태
   const navigate = useNavigate();
   const [mobilePanel, setMobilePanel] = useState(null); // 모바일 슬라이드 패널 상태 search, menu, null
   const { user, logout } = useUserAuth();
@@ -25,7 +25,7 @@ function NavBar({ isDarkMode, toggleDarkMode }) {
   useOutsideClickClose(
     mobileMenuRef,
     () => setMobilePanel(null), // 슬라이드 패널 닫기
-    mobilePanel === "menu" // 현재 메뉴 패널이 열려있는지 여부
+    mobilePanel // 현재 메뉴 패널이 열려있는지 여부
   );
 
   const handleLogout = () => {
@@ -84,7 +84,7 @@ function NavBar({ isDarkMode, toggleDarkMode }) {
         className={`movie-search-input`}
         type="text"
         placeholder="영화를 검색해보세요."
-        value={serachValue}
+        value={searchValue}
         onChange={handleSearch}
       />
 
@@ -105,7 +105,10 @@ function NavBar({ isDarkMode, toggleDarkMode }) {
         {/* ☰ 모바일 메뉴 토글 버튼 */}
         <button
           className="icon-button menu-toggle"
-          onClick={toggleMobileMenuSlide}
+          onClick={(e) => {
+            e.stopPropagation();
+            toggleMobileMenuSlide();
+          }}
         >
           <GiHamburgerMenu className="hamburger-icon" />
         </button>
@@ -166,7 +169,7 @@ function NavBar({ isDarkMode, toggleDarkMode }) {
             className="movie-search-input"
             type="text"
             placeholder="영화를 검색해보세요."
-            value={serachValue}
+            value={searchValue}
             onChange={handleSearch}
             autoFocus
           />
@@ -175,7 +178,11 @@ function NavBar({ isDarkMode, toggleDarkMode }) {
 
       {/* 햄버거 메뉴바 (로그인/회원가입 버튼, 모바일/태블릿에서만) */}
       {mobilePanel === "menu" && (
-        <div className="mobile-slide-panel" ref={mobileMenuRef}>
+        <div
+          className="mobile-slide-panel"
+          ref={mobileMenuRef}
+          onClick={(e) => e.stopPropagation()}
+        >
           {user ? (
             // 로그인한 상태
             <div className="mobile-profile">
